@@ -22,6 +22,7 @@ public class FriendlyMessage {
     private String name;
     private String photoUrl;
 
+    //this constructor is a requirement to firebase works
     public FriendlyMessage() {
     }
 

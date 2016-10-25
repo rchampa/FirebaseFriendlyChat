@@ -1,6 +1,7 @@
 *.iml
 .idea
 .gradle
+gradle/
 local.properties
 build
 app/google-services.json

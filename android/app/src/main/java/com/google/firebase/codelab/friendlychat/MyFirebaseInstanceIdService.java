@@ -35,6 +35,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
         // where you should do that.
         String token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "FCM Token: " + token);
+        CodelabPreferences.saveToken(token);
 
         // Once a token is generated, we subscribe to topic.
         FirebaseMessaging.getInstance().subscribeToTopic(FRIENDLY_ENGAGE_TOPIC);

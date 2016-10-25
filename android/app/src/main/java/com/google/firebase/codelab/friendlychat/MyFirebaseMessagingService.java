@@ -12,8 +12,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package com.google.firebase.codelab.friendlychat;
+ */
 
+package com.google.firebase.codelab.friendlychat;
+
+import android.app.NotificationManager;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -29,5 +33,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "FCM Message Id: " + remoteMessage.getMessageId());
         Log.d(TAG, "FCM Notification Message: " + remoteMessage.getNotification());
         Log.d(TAG, "FCM Data Message: " + remoteMessage.getData());
+
+        NotificationCompat.Builder builder = getNotificationBuild("You have a new message",remoteMessage.getNotification().getBody());
+        publishNotification(builder);
+
+
+    }
+
+    private NotificationCompat.Builder getNotificationBuild(String title, String description){
+
+        NotificationCompat.Builder mBuilder =
+                (android.support.v7.app.NotificationCompat.Builder)new NotificationCompat.Builder(MyApp.getContext())
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle(title)
+                        .setContentText(description);
+
+        return  mBuilder;
+    }
+
+    private void publishNotification(NotificationCompat.Builder mBuilder){
+
+        // Sets an ID for the notification
+        int mNotificationId = 001;
+        // Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 }

@@ -15,9 +15,26 @@
  */
 package com.google.firebase.codelab.friendlychat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 public class CodelabPreferences {
 
     public static final String INSTANCE_ID_TOKEN_RETRIEVED = "iid_token_retrieved";
     public static final String FRIENDLY_MSG_LENGTH = "friendly_msg_length";
+    private static final String PREFERENCE_FILE = "es.ric.friendlychat";
+    private static final String TOKEN = "token";
+
+    private static SharedPreferences getPrefsFile(){
+        return MyApp.getContext().getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE);
+    }
+
+    public static void saveToken(String token){
+        getPrefsFile().edit().putString(TOKEN,token).apply();
+    }
+
+    public static String getToken(){
+        return getPrefsFile().getString(TOKEN,"");
+    }
 
 }
