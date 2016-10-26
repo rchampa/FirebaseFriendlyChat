@@ -144,7 +144,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             String token = CodelabPreferences.getToken();
 
             Log.d("uuid",uuid);
-            mFirebaseDatabaseReference.child("users").child(uuid).setValue(new User(uuid,token));
+            mFirebaseDatabaseReference.child("users").push().setValue(new User(uuid,token));
 
             // Go back to the main activity
             startActivity(new Intent(this, MainActivity.class));
