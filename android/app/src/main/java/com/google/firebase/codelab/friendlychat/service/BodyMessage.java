@@ -11,6 +11,7 @@ public class BodyMessage {
 
     public BodyMessage(String to, String message) {
         this.to = to;
+        this.data = new Data();
         this.data.message = message;
     }
 

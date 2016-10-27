@@ -17,6 +17,8 @@
 package com.google.firebase.codelab.friendlychat;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -30,11 +32,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // Handle data payload of FCM messages.
+        Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "FCM Message Id: " + remoteMessage.getMessageId());
         Log.d(TAG, "FCM Notification Message: " + remoteMessage.getNotification());
         Log.d(TAG, "FCM Data Message: " + remoteMessage.getData());
 
-        NotificationCompat.Builder builder = getNotificationBuild("You have a new message",remoteMessage.getNotification().getBody());
+        String push_message = remoteMessage.getData().get("message");
+        NotificationCompat.Builder builder = getNotificationBuild("You have a new message", push_message);
         publishNotification(builder);
 
 
@@ -52,6 +56,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void publishNotification(NotificationCompat.Builder mBuilder){
+
+
+        Intent notificationIntent = new Intent(MyApp.getContext(), MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent = PendingIntent.getActivity(MyApp.getContext(), 0, notificationIntent, 0);
+
+//        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(intent);
 
         // Sets an ID for the notification
         int mNotificationId = 001;

@@ -42,6 +42,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.codelab.friendlychat.service.ServiceSendTopicMessage;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -180,6 +181,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), mUsername,
                         mPhotoUrl);
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD).push().setValue(friendlyMessage);
+                Intent intent = new Intent(MainActivity.this, ServiceSendTopicMessage.class);
+                intent.putExtra(ServiceSendTopicMessage.MESSAGE,mMessageEditText.getText().toString());
+                startService(intent);
                 mMessageEditText.setText("");
             }
         });

@@ -2,6 +2,7 @@ package com.google.firebase.codelab.friendlychat.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.firebase.codelab.friendlychat.CodelabPreferences;
 import com.google.firebase.codelab.friendlychat.MyFirebaseInstanceIdService;
@@ -26,7 +27,7 @@ public class ServiceSendTopicMessage extends IntentService {
 
 
     public ServiceSendTopicMessage() {
-        super("ServiceAvatar");
+        super("ServiceSendTopicMessage");
     }
 
     @Override
@@ -43,15 +44,19 @@ public class ServiceSendTopicMessage extends IntentService {
             APIFCMNotifications api = new APIFCMNotifications(headers);
             try{
 
+                Log.d("FCM","enviando mensage a topic");
                 String topic = "/topics/"+MyFirebaseInstanceIdService.FRIENDLY_ENGAGE_TOPIC;
                 Response<ResponseBody> response = api.sendToTopic(new BodyMessage(topic,message));
+                Log.d("FCM","code "+response.code());
                 if(response.isSuccessful()){
-
+                    Log.d("FCM","mensaje enviado");
                 }
+
 
             }
             catch(Exception e){
                 bcIntent.setAction(ACTION_ERROR);
+                e.printStackTrace();
             }
 
 //            sendBroadcast(bcIntent);
